@@ -2,6 +2,7 @@ package com.example.pp.service;
 
 import com.example.pp.model.ClientInfo;
 import com.example.pp.repository.ClientRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -12,13 +13,10 @@ import java.util.Calendar;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SmsService {
-
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
-
-    @Autowired
-    private ClientRepository clientRepository;
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final ClientRepository clientRepository;
 
     @Value("${discount}")
     private String discount;
