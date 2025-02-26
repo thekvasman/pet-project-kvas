@@ -4,9 +4,9 @@ version: '3'
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: db
+    container_name: db_kvas
     environment:
-      POSTGRES_DB: "db_name"
+      POSTGRES_DB: "clientdb"
       POSTGRES_USER: "db_user"
       POSTGRES_PASSWORD: "db_pass"
     ports:

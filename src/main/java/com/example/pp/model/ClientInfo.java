@@ -2,6 +2,7 @@ package com.example.pp.model;
 
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,10 +10,10 @@ import java.util.Date;
 @Entity
 @Data
 @Builder
-@Getter
-@Setter
+//@Accessors(chain = true)
 @Table(name = "Clients")
 @AllArgsConstructor
+@NoArgsConstructor
 public class ClientInfo {
 
     @Id
@@ -24,9 +25,6 @@ public class ClientInfo {
     private Date birthday;
     private boolean messageSend;
 
-    public ClientInfo() {
-
-    }
     //clientId - varchar 255
     //name - varchar 255
     //middleName - varchar 255

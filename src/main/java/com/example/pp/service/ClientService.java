@@ -3,6 +3,7 @@ package com.example.pp.service;
 import com.example.pp.model.ClientInfo;
 import com.example.pp.repository.ClientRepository;
 import com.example.pp.feign.ClientsServiceClient;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -11,13 +12,11 @@ import java.util.Calendar;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ClientService{
 
-    @Autowired
-    private ClientsServiceClient clientsServiceClient;
-
-    @Autowired
-    private ClientRepository clientRepository;
+    private final ClientsServiceClient clientsServiceClient;
+    private final ClientRepository clientRepository;
 
     @Scheduled(cron = "0 0 * * * *")
     public List<ClientInfo> getClients() {
