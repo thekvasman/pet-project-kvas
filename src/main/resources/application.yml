@@ -5,10 +5,10 @@ server:
 
 spring:
   mvc:
-    pathmatch:
+    path match:
       matching-strategy: ant_path_matcher
   datasource:
-    url: jdbc:postgresql://localhost:5432/clientdb
+    url: jdbc:postgresql://localhost:5432/db_kvas
     username: db_user
     password: db_pass
   jpa:
@@ -18,7 +18,19 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
   kafka:
     bootstrap-servers: kafka:9092
 
 discount: 10%
+
+logging:
+  level:
+    org.hibernate:
+      sql:
+        DEBUG
+    type:
+      descriptor:
+        sql:
+          BasicBinder:
+            TRACE

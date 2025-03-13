@@ -2,39 +2,35 @@ package com.example.pp.service;
 
 import com.example.pp.model.ClientInfo;
 import com.example.pp.repository.ClientRepository;
-import com.example.pp.feign.ClientsServiceClient;
+import com.example.pp.feign.FeignService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ClientService{
 
-    private final ClientsServiceClient clientsServiceClient;
+    private final FeignService feignService;
     private final ClientRepository clientRepository;
 
-    @Scheduled(cron = "0 0 * * * *")
-    public List<ClientInfo> getClients() {
-        List<ClientInfo> clients = clientsServiceClient.getClients();
-        int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+    @Scheduled(cron = "0 * * * * *")
+    public void scheduledClients() {
+        clientRepository.saveAll(getFilteredClients());
+    }
 
+    public List<ClientInfo> getFilteredClients() {
+        List<ClientInfo> clients = feignService.getClients();
         return clients.stream()
                 .filter(client -> client.getPhone().endsWith("7"))
-                .filter(client -> client.getBirthday().getMonth() == currentMonth)
+                .filter(client -> client.getBirthday().getMonth().equals(LocalDate.now().getMonth()))
                 .toList();
     }
 
-    public ClientInfo getClientById(Long clientId) {
-        ClientInfo client = clientsServiceClient.getClientById(clientId);
-        int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
-        if(client != null && client.getPhone().endsWith("7") && client.getBirthday().getMonth() == currentMonth){
-            return client;
-        }
-        return null;
+    public ClientInfo getClientById(String clientId) {
+        return feignService.getClientById(clientId);
     }
 }

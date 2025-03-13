@@ -21,7 +21,7 @@ public class SmsService {
     @Value("${discount}")
     private String discount;
 
-    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "0 * * * * *")
     public void sendMessages() {
         if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 19) {
             List<ClientInfo> clients = clientRepository.findByMessageSendFalse();

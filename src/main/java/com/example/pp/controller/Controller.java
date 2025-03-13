@@ -14,17 +14,17 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/clients")
+@RequestMapping("/api/v1/getClient")
 public class Controller {
     private final ClientService clientService;
 
     @GetMapping
-    public List<ClientInfo> getClients() {
-        return clientService.getClients();
+    public void getClients() {
+        clientService.scheduledClients();
     }
 
     @GetMapping("/{clientId}")
-    public ClientInfo getClient(@PathVariable Long clientId) {
+    public ClientInfo getClient(@PathVariable String clientId) {
         return clientService.getClientById(clientId);
     }
 }

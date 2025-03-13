@@ -5,24 +5,24 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
 @Data
 @Builder
 //@Accessors(chain = true)
-@Table(name = "Clients")
+@Table
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClientInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long clientId;
+    private String clientId;
 
     private String name;
     private String phone;
-    private Date birthday;
+    private LocalDate birthday;
     private boolean messageSend;
 
     //clientId - varchar 255
