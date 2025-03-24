@@ -1,30 +1,29 @@
 package com.example.pp.controller;
 
 import com.example.pp.model.ClientInfo;
-import com.example.pp.service.ClientService;
+import com.example.pp.services.ClientService;
+import com.example.pp.scheduler.SchedulerService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/getClient")
-public class Controller {
+public class ClientController {
     private final ClientService clientService;
+    private final SchedulerService schedulerService;
 
     @GetMapping
     public void getClients() {
-        clientService.scheduledClients();
+        schedulerService.scheduledTask();
     }
 
     @GetMapping("/{clientId}")
-    public ClientInfo getClient(@PathVariable String clientId) {
+    public ClientInfo getClientById(@PathVariable String clientId) {
         return clientService.getClientById(clientId);
     }
 }

@@ -1,13 +1,13 @@
-package com.example.pp.service;
+package com.example.pp.services;
 
 import com.example.pp.model.ClientInfo;
 import com.example.pp.repository.ClientRepository;
 import com.example.pp.feign.FeignService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,14 +16,11 @@ public class ClientService{
 
     private final FeignService feignService;
     private final ClientRepository clientRepository;
+    List<ClientInfo> clients = new ArrayList<>();
 
-    @Scheduled(cron = "0 * * * * *")
-    public void scheduledClients() {
-        clientRepository.saveAll(getFilteredClients());
-    }
 
     public List<ClientInfo> getFilteredClients() {
-        List<ClientInfo> clients = feignService.getClients();
+        clients = feignService.getClients();
         return clients.stream()
                 .filter(client -> client.getPhone().endsWith("7"))
                 .filter(client -> client.getBirthday().getMonth().equals(LocalDate.now().getMonth()))
@@ -32,5 +29,9 @@ public class ClientService{
 
     public ClientInfo getClientById(String clientId) {
         return feignService.getClientById(clientId);
+    }
+
+    public void saveClients(List<ClientInfo> clients) {
+            clientRepository.saveAll(clients);
     }
 }

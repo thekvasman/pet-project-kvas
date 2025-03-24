@@ -2,7 +2,6 @@ package com.example.pp.feign;
 
 import com.example.pp.model.ClientInfo;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -15,5 +14,5 @@ public interface FeignService {
     List<ClientInfo> getClients();
 
     @PostMapping("/api/v1/getClient/{clientId}")
-    ClientInfo getClientById(@PathVariable String clientId);
+    ClientInfo getClientById(@PathVariable("clientId") String clientId);
 }
