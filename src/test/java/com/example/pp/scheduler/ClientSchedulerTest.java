@@ -18,10 +18,10 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class SchedulerServiceTest {
+public class ClientSchedulerTest {
 
     @Autowired
-    private SchedulerService schedulerService;
+    private ClientScheduler clientScheduler;
 
     @Autowired
     private ClientRepository clientRepository;
@@ -48,7 +48,7 @@ public class SchedulerServiceTest {
         clientRepository.saveAll(mock);
 
         //WHEN
-        schedulerService.scheduledTask();
+        clientScheduler.scheduledTask();
 
         clientRepository.flush();
 
@@ -63,10 +63,10 @@ public class SchedulerServiceTest {
         );
 
         assertThat(savedClients)
-                .extracting(ClientInfo::isMessageSend)
+                .extracting(ClientInfo::getMessageSend)
                 .containsOnly(true);
 
-        assertThat(savedClients).allMatch(ClientInfo::isMessageSend);
+        assertThat(savedClients).allMatch(ClientInfo::getMessageSend);
     }
 
     private ClientInfo createTestClient(String clientId, String phone) {

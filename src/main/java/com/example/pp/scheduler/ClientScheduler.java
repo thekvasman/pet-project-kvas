@@ -9,30 +9,32 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SchedulerService {
+public class ClientScheduler {
 
     private final ClientService clientService;
     private final KafkaProducerService kafkaProducerService;
     private final ClientRepository clientRepository;
 
-    @Value("${discount}")
+    @Value("${application.discount}")
     private String discount;
 
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0 * * * *")
     public void scheduledTask() {
-        List<ClientInfo> clients = clientService.getFilteredClients();
-        clientService.saveClients(clients);
-        clients = clientRepository.findByMessageSendFalse();
+        clientService.saveClients(clientService.getFilteredClients());
+        List<ClientInfo> clients = clientRepository.findByMessageSendFalse();
         for(ClientInfo client : clients) {
             String message = client.getName() + " " + client.getMiddleName() + ", для Вас в этом месяце действует скидка " + discount;
-            kafkaProducerService.sendMessage("messageSMS", client.getPhone(), message);
-            client.setMessageSend(true);
-            clientRepository.save(client);
+            if(Calendar.HOUR_OF_DAY < 19) {
+                kafkaProducerService.sendMessage("messageSMS", client.getPhone(), message);
+                client.setMessageSend(true);
+                clientRepository.save(client);
+            }
         }
     }
 }

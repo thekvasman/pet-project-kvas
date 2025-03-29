@@ -1,7 +1,7 @@
 package com.example.pp.controller;
 
 import com.example.pp.model.ClientInfo;
-import com.example.pp.scheduler.SchedulerService;
+import com.example.pp.scheduler.ClientScheduler;
 import com.example.pp.services.ClientService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +22,7 @@ public class ClientControllerTest {
     private ClientService clientService;
 
     @Mock
-    private SchedulerService schedulerService;
+    private ClientScheduler clientScheduler;
 
     @InjectMocks
     private ClientController clientController;
@@ -51,7 +51,7 @@ public class ClientControllerTest {
     @Test
     void getClientsTest() throws Exception {
         //given
-        doNothing().when(schedulerService).scheduledTask();
+        doNothing().when(clientScheduler).scheduledTask();
         mockMvc = MockMvcBuilders.standaloneSetup(clientController).build();
 
         //when
@@ -59,7 +59,7 @@ public class ClientControllerTest {
                 .andExpect(status().isOk());
 
         //then
-        verify(schedulerService, times(1)).scheduledTask();
+        verify(clientScheduler, times(1)).scheduledTask();
     }
 
     @Test

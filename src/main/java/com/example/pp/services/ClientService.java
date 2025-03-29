@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,22 +15,24 @@ public class ClientService{
 
     private final FeignService feignService;
     private final ClientRepository clientRepository;
-    List<ClientInfo> clients = new ArrayList<>();
 
 
     public List<ClientInfo> getFilteredClients() {
-        clients = feignService.getClients();
-        return clients.stream()
+        return feignService.getClients().stream()
                 .filter(client -> client.getPhone().endsWith("7"))
                 .filter(client -> client.getBirthday().getMonth().equals(LocalDate.now().getMonth()))
                 .toList();
     }
 
     public ClientInfo getClientById(String clientId) {
-        return feignService.getClientById(clientId);
+        if(clientRepository.existsById(clientId)) {
+            return clientRepository.getById(clientId);
+        } else {
+            return feignService.getClientById(clientId);
+        }
     }
 
     public void saveClients(List<ClientInfo> clients) {
-            clientRepository.saveAll(clients);
+            clientRepository.saveAll(getFilteredClients());
     }
 }
