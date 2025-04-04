@@ -1,6 +1,6 @@
 package com.example.pp.repository;
 
-import com.example.pp.model.ClientInfo;
+import com.example.pp.model.entity.ClientInfo;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,7 @@ import java.util.List;
 @ActiveProfiles("test")
 public class ClientRepositoryTest {
 
-    @Autowired
-    private ClientRepository repo;
+
     @Autowired
     private ClientRepository clientRepository;
 
@@ -34,6 +33,6 @@ public class ClientRepositoryTest {
         //THEN
         Assertions.assertThat(result)
                 .hasSize(1)
-                .allMatch(client -> !client.isMessageSend());
+                .allMatch(client -> !client.getMessageSend());
     }
 }

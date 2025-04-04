@@ -1,6 +1,6 @@
 package com.example.pp.controller;
 
-import com.example.pp.model.ClientInfo;
+import com.example.pp.model.dto.ClientDTO;
 import com.example.pp.services.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,7 @@ public class ClientController {
     private final ClientService clientService;
 
     @GetMapping("/{clientId}")
-    public ClientInfo getClientById(@PathVariable String clientId) {
+    public ClientDTO getClientById(@PathVariable String clientId) {
         return clientService.getClientById(clientId);
     }
 }

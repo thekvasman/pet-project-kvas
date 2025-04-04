@@ -1,6 +1,8 @@
 package com.example.pp.services;
 
-import com.example.pp.model.ClientInfo;
+import com.example.pp.mapping.ClientMapping;
+import com.example.pp.model.dto.ClientDTO;
+import com.example.pp.model.entity.ClientInfo;
 import com.example.pp.repository.ClientRepository;
 import com.example.pp.feign.FeignService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ public class ClientService{
 
     private final FeignService feignService;
     private final ClientRepository clientRepository;
+    private final ClientMapping clientMapping;
 
 
     public List<ClientInfo> getFilteredClients() {
@@ -24,15 +27,15 @@ public class ClientService{
                 .toList();
     }
 
-    public ClientInfo getClientById(String clientId) {
+    public ClientDTO getClientById(String clientId) {
         if(clientRepository.existsById(clientId)) {
-            return clientRepository.getById(clientId);
+            return clientMapping.toDto(clientRepository.getById(clientId));
         } else {
-            return feignService.getClientById(clientId);
+            return clientMapping.toDto(feignService.getClientById(clientId));
         }
     }
 
-    public void saveClients(List<ClientInfo> clients) {
+    public void saveClients() {
             clientRepository.saveAll(getFilteredClients());
     }
 }

@@ -1,6 +1,6 @@
 package com.example.pp.controller;
 
-import com.example.pp.model.ClientInfo;
+import com.example.pp.model.dto.ClientDTO;
 import com.example.pp.scheduler.ClientScheduler;
 import com.example.pp.services.ClientService;
 import org.junit.jupiter.api.Test;
@@ -34,8 +34,7 @@ public class ClientControllerTest {
 
         //given
         String clientId = "1a";
-        ClientInfo expectedClient = new ClientInfo();
-
+        ClientDTO expectedClient = new ClientDTO();
         //mock set
         when(clientService.getClientById(clientId)).thenReturn(expectedClient);
         mockMvc = MockMvcBuilders.standaloneSetup(clientController).build();

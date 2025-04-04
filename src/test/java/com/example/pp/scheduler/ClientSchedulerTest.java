@@ -1,9 +1,8 @@
 package com.example.pp.scheduler;
 
-import com.example.pp.kafka.KafkaProducerService;
-import com.example.pp.model.ClientInfo;
+import com.example.pp.kafka.ClientKafkaProducer;
+import com.example.pp.model.entity.ClientInfo;
 import com.example.pp.repository.ClientRepository;
-import com.example.pp.services.ClientService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +26,7 @@ public class ClientSchedulerTest {
     private ClientRepository clientRepository;
 
     @MockBean
-    private KafkaProducerService kafkaProducerService;
-
-    @MockBean
-    private ClientService clientService;
+    private ClientKafkaProducer clientKafkaProducer;
 
     @AfterEach
     void tearDown() {
@@ -56,7 +52,7 @@ public class ClientSchedulerTest {
         List<ClientInfo> savedClients = clientRepository.findAll();
         assertThat(savedClients).hasSize(2);
 
-        verify(kafkaProducerService, times(2)).sendMessage(
+        verify(clientKafkaProducer, times(2)).sendMessage(
                 eq("messageSMS"),
                 anyString(),
                 contains("10%")

@@ -13,13 +13,13 @@ import static org.mockito.Mockito.verify;
 
 @Service
 @ExtendWith(MockitoExtension.class)
-public class KafkaProducerServiceTest {
+public class ClientKafkaProducerTest {
 
     @Mock
     private KafkaTemplate<String, String> kafkaTemplate;
 
     @InjectMocks
-    private KafkaProducerService kafkaProducerService;
+    private ClientKafkaProducer clientKafkaProducer;
 
     @Test
     void sendMessageTest() {
@@ -28,7 +28,7 @@ public class KafkaProducerServiceTest {
         String phone = "huy777";
         String message = "test";
         //WHEN
-        kafkaProducerService.sendMessage(topic, phone, message);
+        clientKafkaProducer.sendMessage(topic, phone, message);
         //THEN
         verify(kafkaTemplate).send(eq(topic),eq(phone), eq(message));
     }

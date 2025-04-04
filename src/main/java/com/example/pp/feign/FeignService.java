@@ -1,6 +1,6 @@
 package com.example.pp.feign;
 
-import com.example.pp.model.ClientInfo;
+import com.example.pp.model.entity.ClientInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

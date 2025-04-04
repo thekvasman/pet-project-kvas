@@ -1,4 +1,4 @@
-package com.example.pp.model;
+package com.example.pp.model.entity;
 
 
 import lombok.*;
@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-@Builder
 @Table
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,5 +22,4 @@ public class ClientInfo {
     private String phone;
     private LocalDate birthday;
     private Boolean messageSend;
-
 }

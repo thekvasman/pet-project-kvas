@@ -1,7 +1,8 @@
 package com.example.pp.services;
 
 import com.example.pp.feign.FeignService;
-import com.example.pp.model.ClientInfo;
+import com.example.pp.model.dto.ClientDTO;
+import com.example.pp.model.entity.ClientInfo;
 import com.example.pp.repository.ClientRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -71,7 +72,7 @@ public class ClientServiceTest {
         Mockito.when(feignService.getClientById(clientId)).thenReturn(mock.get(1));
 
         //when
-        ClientInfo actualResult = clientService.getClientById(clientId);
+        ClientDTO actualResult = clientService.getClientById(clientId);
 
         //then
         assertThat(actualResult).usingRecursiveComparison().isEqualTo(expectedResult);
@@ -82,7 +83,7 @@ public class ClientServiceTest {
         //GIVEN
         List<ClientInfo> expectedResult = mock;
         //WHEN
-        clientService.saveClients(mock);
+        clientService.saveClients();
         //THEN
         Mockito.verify(clientRepository).saveAll(expectedResult);
     }

@@ -1,6 +1,6 @@
 package com.example.pp.repository;
 
-import com.example.pp.model.ClientInfo;
+import com.example.pp.model.entity.ClientInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
