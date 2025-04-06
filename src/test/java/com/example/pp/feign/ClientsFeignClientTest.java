@@ -7,19 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class FeignServiceTest {
+public class ClientsFeignClientTest {
 
     @Autowired
-    private FeignService feignService;
+    private ClientsFeignClient clientsFeignClient;
 
     @Test
     void getClientsTest() {
-        assertFalse(feignService.getClients().isEmpty());
+        assertFalse(clientsFeignClient.getClients().isEmpty());
     }
 
     @Test
     void getClientByIdTest() {
         String clientId = "123-QEW";
-        assertNotNull(feignService.getClientById(clientId));
+        assertNotNull(clientsFeignClient.getClientById(clientId));
     }
 }

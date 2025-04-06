@@ -1,8 +1,8 @@
 package com.example.pp.controller;
 
-import com.example.pp.model.dto.ClientDTO;
+import com.example.pp.model.entity.ClientInfo;
 import com.example.pp.scheduler.ClientScheduler;
-import com.example.pp.services.ClientService;
+import com.example.pp.services.serviceImpl.ClientServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ClientControllerTest {
 
     @Mock
-    private ClientService clientService;
+    private ClientServiceImpl clientServiceImpl;
 
     @Mock
     private ClientScheduler clientScheduler;
@@ -34,9 +34,9 @@ public class ClientControllerTest {
 
         //given
         String clientId = "1a";
-        ClientDTO expectedClient = new ClientDTO();
+        ClientInfo expectedClient = new ClientInfo();
         //mock set
-        when(clientService.getClientById(clientId)).thenReturn(expectedClient);
+        when(clientServiceImpl.getClientById(clientId)).thenReturn(expectedClient);
         mockMvc = MockMvcBuilders.standaloneSetup(clientController).build();
 
         //when
@@ -44,7 +44,7 @@ public class ClientControllerTest {
                 .andExpect(status().isOk());
 
         //then
-        verify(clientService, times(1)).getClientById(clientId);
+        verify(clientServiceImpl, times(1)).getClientById(clientId);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class ClientControllerTest {
     void getClientNotFoundTest() throws Exception {
         //given
         String clientId = "9z";
-        when(clientService.getClientById(clientId)).thenReturn(null);
+        when(clientServiceImpl.getClientById(clientId)).thenReturn(null);
         mockMvc = MockMvcBuilders.standaloneSetup(clientController).build();
 
         //when
@@ -73,6 +73,6 @@ public class ClientControllerTest {
                 .andExpect(status().isOk());
 
         //then
-        verify(clientService, times(1)).getClientById(clientId);
+        verify(clientServiceImpl, times(1)).getClientById(clientId);
     }
 }

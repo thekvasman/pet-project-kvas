@@ -1,9 +1,9 @@
 package com.example.pp.services;
 
-import com.example.pp.feign.FeignService;
-import com.example.pp.model.dto.ClientDTO;
+import com.example.pp.feign.ClientsFeignClient;
 import com.example.pp.model.entity.ClientInfo;
 import com.example.pp.repository.ClientRepository;
+import com.example.pp.services.serviceImpl.ClientServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,16 +20,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class ClientServiceTest {
+public class ClientServiceImplTest {
 
     @MockBean
-    private FeignService feignService;
+    private ClientsFeignClient clientsFeignClient;
 
     @MockBean
     private ClientRepository clientRepository;
 
     @Autowired
-    private ClientService clientService;
+    private ClientServiceImpl clientServiceImpl;
 
     private List<ClientInfo> mock;
 
@@ -51,11 +51,11 @@ public class ClientServiceTest {
         List<ClientInfo> actualResult;
 
         //mock set
-        Mockito.when(feignService.getClients()).thenReturn(mock);
-        System.out.println("feign mock: " + feignService.getClients());
+        Mockito.when(clientsFeignClient.getClients()).thenReturn(mock);
+        System.out.println("feign mock: " + clientsFeignClient.getClients());
 
         //when
-        actualResult = clientService.getFilteredClients();
+        actualResult = clientServiceImpl.getFilteredClients();
 
         //then
         assertThat(actualResult).usingRecursiveComparison().isEqualTo(expectedResult);
@@ -69,10 +69,10 @@ public class ClientServiceTest {
         ClientInfo expectedResult = mock.get(1);
 
         //mock set
-        Mockito.when(feignService.getClientById(clientId)).thenReturn(mock.get(1));
+        Mockito.when(clientsFeignClient.getClientById(clientId)).thenReturn(mock.get(1));
 
         //when
-        ClientDTO actualResult = clientService.getClientById(clientId);
+        ClientInfo actualResult = clientServiceImpl.getClientById(clientId);
 
         //then
         assertThat(actualResult).usingRecursiveComparison().isEqualTo(expectedResult);
@@ -83,7 +83,7 @@ public class ClientServiceTest {
         //GIVEN
         List<ClientInfo> expectedResult = mock;
         //WHEN
-        clientService.saveClients();
+        clientServiceImpl.saveClients();
         //THEN
         Mockito.verify(clientRepository).saveAll(expectedResult);
     }
