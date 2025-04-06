@@ -1,2 +1,40 @@
 server:
   port: 8080
+
+spring:
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+  datasource:
+    url: jdbc:postgresql://localhost:5432/db_kvas
+    username: db_user
+    password: db_pass
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+application:
+  discount: "10%"
+  clients-service:
+    url: "http://localhost:8081"
+
+logging:
+  level:
+    org.hibernate:
+      sql:
+        DEBUG
+    type:
+      descriptor:
+        sql:
+          BasicBinder:
+            TRACE
